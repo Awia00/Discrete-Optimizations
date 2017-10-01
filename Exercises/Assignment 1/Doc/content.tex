@@ -1,0 +1,55 @@
+\section{Theoretical part - formulation and lower bounds}
+Given a complete directed graph $G = (V,E),c$ with $|V| = n$ where $c_{ij}$ is the cost of the edge from vertex $i$ to vertex $j$, the asymmetric travelling salesman problem is to find a minimum cost Hamiltonian tour of G.
+
+The subtour integer linear programming formulation for the travelling salesman as defined in the assignment:
+\[ 
+x_{ij} =
+\left \{
+  \begin{tabular}{ccc}
+  1, & if edge (i,j) is included\\
+  0, & otherwise 
+  \end{tabular}
+\right .
+\]
+
+\begin{alignat}{3}
+\text{max: }    &\sum_{i,j \in V} c_{ij} x_{ij}\\
+\text{s.t }     & \sum_{i \in V, i \neq j} x_{ij} = 1  && \text{ for } j \in V\\
+                & \sum_{j \in V, j \neq i} x_{ij} = 1  && \text{ for } i \in V\\
+                & \sum_{i,j \in S} x_{ij} \leq |S| - 1 && \text{ for } S \subset V \text{ such that } 2 \leq |S| \leq n - 2 \\
+                & x_{ij} \in \{0,1\}
+\end{alignat}
+
+\subsection{}
+First we prove that any feasible solution will satisfy the above constraints. In this proof we do not need to take into consideration the cost since any Hamiltonian tour is a feasible solution. In a feasible solution every vertex has exactly two edges incident to it. The constraints $(2)$ and $(3)$ satisfies this since for any vertex $v$ edges $(h,v)$ and $(v,k)$ must exist for any $h,k \neq v$. A feasible solution also has every vertex incident to two edges which satisfies this constraint. Lastly a feasible solution only consists of one tour. A tour of $h$ vertices consists of $h$ edges, every proper subset of such a tour have strictly less that $h$ edges. The feasible solution will therefore satisfy constraint $(4)$. \todo{could use more argumentation.} We have now shown that any feasible solution will satisfy the constraints. \todo{rewrite to be based on one constraint after the other}
+
+Now we need to proof that any solution satisfying the constraints is also a feasible solution. Constraints $(2)$ and  $(3)$ are trivial in the sense that they still require each vertex to have exactly two edges incident to them as a feasible solution should have. Now that any solution requires each vertex to have two incident edges, two situations can occur, either we have a Hamiltonian tour and the solution is feasible or we have multiple smaller cycles. As described before cycle must have as many edges as vertices and constraint $(4)$ limits the solution to not have any cycles for any proper subset of $S$ since the number of edges has to be strictly lower than the size of the solution. Therefore a cycle can only exist for the entire graph and if it does so we have a Hamiltonian tour. This concludes our proof.
+
+\subsection{}
+First we calculate the size of $S \subset V \text{ such that } |S| \leq n - 2$. This amount to picking every subset of size $n-2$ out of $n$. Secondly we subtract any subset of size $1$ which naturally is $n$. This gives the following size $\frac{n!}{(n-2)! (n - (n-2)!)}-n \equiv \frac{n!}{(n-2)! 2}-n$. 
+
+\begin{alignat}{3}
+\text{max: }    & \sum_{i,j \in V} c_{ij} x_{ij}\\
+\text{s.t }     & \sum_{i \in V, i \neq j} x_{ij} = 1  && \text{ for } j \in V\\
+                & \sum_{j \in V, j \neq i} x_{ij} = 1  && \text{ for } i \in V\\
+                & t_j \geq t_i + 1-n(1-x_{ij})  && \text{ for } i \in V, j \in V\ \{1\}\\
+                & x_{ij} \in \{0,1\} \\
+                & t_i \in \mathbb{R}_+ 
+\end{alignat}
+
+\subsection{}
+The constraint runs over two variables, $i,j$ which can have $n$ and $n-1$ different values respectively. Therefore there are $n(n-1) = n^2-n$ many constraints.
+
+\subsection{}
+The constraints of the sub tour formulation might provide for a better branching decision in a branch and bound scenario and further more the constraints might be restricting more to integer solutions, so branch and cut might not be necessary. \todo{need to think more on this}
+
+\subsection{}
+Consider the minimum cost Hamiltonian tour, it goes through vertex $1$. Vertex $1$ has exactly two edges incident to it, if we remove one of them the solution is now a tree with 1 as root covering every vertex in $V$. Since the lower bound algorithm finds a minimum cost tree the cost will be lower than or equal to the tree of the optimal solution. If the removed edge from the Hamiltonian tour is the edge with the lowest cost then the lower bound algorithm would also pick it, and if not the lower bound is still adhered to. This concludes the proof.
+
+\section{Implementation part - branch-and-bound}
+\subsection{}
+A simple heuristic could be to continuously pick edges with minimum cost while not violating the requirement that the solution must be a Hamiltonian tour.
+
+\subsection{}
+
+\subsection{}
