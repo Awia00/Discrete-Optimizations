@@ -48,6 +48,52 @@ public class Kruskal {
 		
 		return mstEdges;
 	}
+
+	public List<Edge> oneTree(final Graph graph, BnBNode node, int oneVertex){
+
+		List<Edge> mstEdges = new LinkedList<>();
+		for(Edge e: graph.edges){
+			if(e.u != oneVertex || e.v != oneVertex) {
+				nodes[e.u] = ds.makeSet(e.u);
+				nodes[e.v] = ds.makeSet(e.v);
+				mstEdges.add(e);
+			}
+		}
+
+		BnBNode n = node;
+		while(n.parent!=null){
+			if(n.edgeIncluded) 	ds.union(nodes[n.edge.u], nodes[n.edge.v]);		//Contract included edges
+			else				mstEdges.remove(n.edge);						//Disregard excluded edges
+			n=n.parent;
+		}
+
+		List<Edge> tmp = new ArrayList<Edge>(mstEdges);
+		Collections.sort(tmp, new Comparator<Edge>(){	//Sort edges in nondescending order
+			public int compare(Edge o1, Edge o2) {
+				return Double.compare(graph.getDistance(o1.u, o1.v), graph.getDistance(o2.u, o2.v));
+			}});
+
+		for(Edge e: tmp){ //Main loop of Kruskal
+			if(ds.find(nodes[e.u])!=ds.find(nodes[e.v])){
+				ds.union(nodes[e.u], nodes[e.v]);
+			}else{
+				mstEdges.remove(e);
+			}
+		}
+
+		Edge minOneIn = null, minOneOut = null;
+		for (Edge e : graph.edges) {
+			if(e.u == oneVertex && (minOneOut == null || graph.getLength(e)< graph.getLength(minOneOut))) {
+				minOneOut = e;
+			}
+			if(e.v == oneVertex && (minOneIn == null || graph.getLength(e) < graph.getLength(minOneIn))) {
+				minOneIn = e;
+			}
+		}
+		mstEdges.add(minOneIn);
+		mstEdges.add(minOneOut);
+		return mstEdges;
+	}
 	
 	
 //	public List<Edge> minimumSpanningTree(final Graph g, List<Edge> edges){

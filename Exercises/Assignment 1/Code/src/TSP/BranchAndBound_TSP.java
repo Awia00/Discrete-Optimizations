@@ -1,7 +1,6 @@
 package TSP;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 import TSP.DisjointSet.DSNode;
 
@@ -124,8 +123,21 @@ public class BranchAndBound_TSP {
 			return objectiveValue(node);
 		}
 
-		//TODO: See assignment text
-		
+        List<Edge> mst = kruskal.oneTree(graph, node, 0);
+
+        double sum = 0;
+        for (Edge edge : mst) {
+            sum += graph.getLength(edge);
+        }
+        return sum;
+	}
+
+	public double upperBound(BnBNode node){
+		if(node.edgesDefined==graph.getVertices()) {
+			return objectiveValue(node);
+		}
+
+		// todo
 		return 0;
 	}
 	
