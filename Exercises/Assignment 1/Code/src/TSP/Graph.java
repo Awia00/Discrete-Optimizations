@@ -32,6 +32,27 @@ public abstract class Graph {
 	public double getLength(Edge e){
 		return distances[e.u][e.v];
 	}
+	public double getLength(int i, int j){
+		return distances[i][j];
+	}
+
+	public Edge getEdge(int i, int j){
+		Edge result;
+		for (Edge edge : incidentEdges[i]) {
+			if(edge.u==j || edge.v==j)
+				return edge;
+		}
+		throw new RuntimeException("edge non exisitant");
+	}
+
+	public boolean hasEdge(int i, int j){
+		if(i<getVertices() && j<getVertices()){
+			if(distances[i][j] < Double.POSITIVE_INFINITY){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	protected void createEdge(int i, int j){
 		if(distances[i][j]<Double.POSITIVE_INFINITY) return;
@@ -42,6 +63,5 @@ public abstract class Graph {
 		edges.add(e);
 		incidentEdges[i].add(e);
 		incidentEdges[j].add(e);
-		
 	}
 }
