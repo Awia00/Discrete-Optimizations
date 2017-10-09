@@ -137,8 +137,23 @@ public class BranchAndBound_TSP {
 			return objectiveValue(node);
 		}
 
-		// todo
-		return 0;
+		double sum = 0;
+		int numberOfEdges = 0;
+		BnBNode n = node;
+		while (n.parent != null) {
+			if (n.edgeIncluded) {
+				sum += graph.getLength(n.edge);
+				numberOfEdges++;
+			}
+			n = n.parent;
+		}
+
+		return sum + graph.edges
+				.stream()
+				.sorted(Comparator.comparing(edge -> -graph.getLength(edge)))
+				.limit(graph.getVertices() - numberOfEdges)
+				.mapToDouble(edge -> graph.distances[edge.u][edge.v])
+				.sum();
 	}
 	
 	/** Assuming that n represents a valid hamiltonian tour return the length of the tour */
