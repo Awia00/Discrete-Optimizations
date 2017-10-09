@@ -22,7 +22,7 @@ public class TSPSimplex {
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
                     if(graph.hasEdge(i,j))
-                        obj.addTerm(graph.getLength(i,j), x[i]);
+                        obj.addTerm(graph.getLength(i,j), x[i*N+j]);
                 }
             }
             cplex.addMinimize(obj);
@@ -33,7 +33,6 @@ public class TSPSimplex {
                 for (int j = 0; j < N; j++) {
                     if(graph.hasEdge(i,j))
                         expr.addTerm(1, x[i*N + j]);
-
                 }
                 cplex.addEq(expr, 1);
             }
@@ -46,6 +45,16 @@ public class TSPSimplex {
                 cplex.addEq(expr, 1);
             }
 
+            //for (int i = 0; i < N; i++) {
+            //    for (int j = 0; j < N; j++) {
+            //        expr = cplex.linearNumExpr();
+            //        if(!graph.hasEdge(i,j)){
+            //            expr.addTerm(1, x[i*N + j]);
+            //            cplex.addEq(expr, 0);
+            //        }
+            //    }
+            //}
+
             Set<Integer> vertices = Set.of();
             for (int i = 0; i < N; i++) {
                 vertices = vertices.add(i);
@@ -56,6 +65,7 @@ public class TSPSimplex {
                     expr = cplex.linearNumExpr();
                     for (Integer i : S) {
                         for (Integer j : S) {
+                            //if(i.intValue()!=j.intValue())
                             expr.addTerm(1, x[i*N + j]);
                         }
                     }
