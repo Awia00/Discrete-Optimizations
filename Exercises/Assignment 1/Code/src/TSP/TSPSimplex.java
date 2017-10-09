@@ -22,7 +22,7 @@ public class TSPSimplex {
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
                     if(graph.hasEdge(i,j))
-                        obj.addTerm(graph.getLength(i,j), x[i*N+j]);
+                        obj.addTerm(graph.getDistance(i,j), x[i*N+j]);
                 }
             }
             cplex.addMinimize(obj);
@@ -82,7 +82,7 @@ public class TSPSimplex {
                         if(cplex.getValue(x[i*N+j]) == 1)
                         {
                             result.add(graph.getEdge(i,j));
-                            sum += graph.getLength(i,j);
+                            sum += graph.getDistance(i,j);
                         }
                     }
                 }

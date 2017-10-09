@@ -32,10 +32,6 @@ public abstract class Graph {
 	public double getLength(Edge e){
 		return distances[e.u][e.v];
 	}
-	public double getLength(int i, int j){
-		return distances[i][j];
-	}
-
 	public Edge getEdge(int i, int j){
 		for (Edge edge : incidentEdges[i]) {
 			if(edge.u==j || edge.v==j)
