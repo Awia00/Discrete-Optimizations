@@ -81,15 +81,9 @@ public class Kruskal {
 			}
 		}
 
-		Edge cheapest = null, nextCheapest = null;
+		Edge cheapest = graph.incidentEdges[oneVertex].get(0), nextCheapest = null;
 		for (Edge e : graph.incidentEdges[oneVertex]) {
-			if(cheapest == null) {
-				cheapest = e;
-			}
-			else if (nextCheapest == null){
-				nextCheapest = e;
-			}
-			else if(graph.getLength(e) < graph.getLength(nextCheapest)){
+			if(nextCheapest == null || graph.getLength(e) < graph.getLength(nextCheapest)){
 				if(graph.getLength(e) < graph.getLength(cheapest)){
 					nextCheapest = cheapest;
 					cheapest = e;
