@@ -9,6 +9,7 @@ import ilog.cplex.IloCplex;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TSPSimplex {
     public List<Edge> solve(Graph graph) {
@@ -32,8 +33,7 @@ public class TSPSimplex {
                 for (int j = 0; j < N; j++) {
                     if(graph.hasEdge(i,j))
                         expr.addTerm(1, x[i*N + j]);
-                    else
-                        expr.addTerm(0, x[i*N + j]);
+
                 }
                 cplex.addEq(expr, 1);
             }
@@ -42,8 +42,6 @@ public class TSPSimplex {
                 for (int i = 0; i < N; i++) {
                     if(graph.hasEdge(i,j))
                         expr.addTerm(1, x[i*N + j]);
-                    else
-                        expr.addTerm(0, x[i*N + j]);
                 }
                 cplex.addEq(expr, 1);
             }
@@ -70,7 +68,7 @@ public class TSPSimplex {
             double sum = 0;
             if(solved){
                 for (int i = 0; i < N; i++) {
-                    for (int j = i+1; j < N; j++) {
+                    for (int j = 0; j < N; j++) {
                         if(cplex.getValue(x[i*N+j]) == 1)
                         {
                             result.add(graph.getEdge(i,j));

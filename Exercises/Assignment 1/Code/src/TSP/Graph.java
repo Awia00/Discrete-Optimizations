@@ -37,7 +37,6 @@ public abstract class Graph {
 	}
 
 	public Edge getEdge(int i, int j){
-		Edge result;
 		for (Edge edge : incidentEdges[i]) {
 			if(edge.u==j || edge.v==j)
 				return edge;
