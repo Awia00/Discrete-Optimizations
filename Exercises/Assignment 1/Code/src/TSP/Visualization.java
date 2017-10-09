@@ -9,6 +9,8 @@ import ProGAL.geom2d.Point;
 import ProGAL.geom2d.viewer.J2DScene;
 import ProGAL.geom2d.viewer.TextShape;
 
+import javax.swing.*;
+
 
 /** 
  * Class for visualizing solutions. Requires ProGAL (www.diku.dk/~rfonseca/ProGAL) to be in the class-path. 
@@ -32,6 +34,7 @@ public class Visualization {
 
 	public static void visualizeSolution(Graph g, List<Edge> n){
 		J2DScene scene = J2DScene.createJ2DSceneInFrame();
+		scene.frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		for(Edge e: g.edges){
 			scene.addShape(new LineSegment(new Point(g.vertexCoords[e.u]), new Point(g.vertexCoords[e.v])), new Color(180,180,180));
 
@@ -48,6 +51,7 @@ public class Visualization {
 
 	public static void visualizeSolution(Graph g, BnBNode n){
 		J2DScene scene = J2DScene.createJ2DSceneInFrame();
+		scene.frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		for(Edge e: g.edges){
 			scene.addShape(new LineSegment(new Point(g.vertexCoords[e.u]), new Point(g.vertexCoords[e.v])), new Color(180,180,180));
 			
@@ -70,6 +74,7 @@ public class Visualization {
 		List<Edge> edges = new Kruskal().minimumSpanningTree(g, n);
 
 		J2DScene scene = J2DScene.createJ2DSceneInFrame();
+		scene.frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		int i=0;
 		while(n.parent!=null){
 			Edge e = n.edge;

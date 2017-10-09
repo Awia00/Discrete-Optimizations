@@ -18,6 +18,7 @@ public class BranchAndBound_TSP {
      * The number of BnBNodes generated
      */
     private long nodesGenerated = 0;
+    private double upperBound = Double.POSITIVE_INFINITY;
 
     /**
      * Construct a problem instance
@@ -37,45 +38,42 @@ public class BranchAndBound_TSP {
 //			}});
 
         //The ordering in the nodePool determines which nodes gets polled first.
-        PriorityQueue<BnBNode> nodePool = new PriorityQueue<BnBNode>(10000, new Comparator<BnBNode>() {
-            public int compare(BnBNode n0, BnBNode n1) {
-                return Double.compare(n0.lowerBound, n1.lowerBound);//Best-first
-                //return (n0.depth-n1.depth);//Breadth-first
-                //return (n1.depth-n0.depth);//Depth-first
-            }
+        PriorityQueue<BnBNode> nodePool = new PriorityQueue<BnBNode>(10000, (n0, n1) -> {
+            //return Double.compare(n0.lowerBound, n1.lowerBound);//Best-first
+            //return (n0.depth-n1.depth);//Breadth-first
+            return (n1.depth - n0.depth);//Depth-first
         });
 
         BnBNode root = new BnBNode(null, null, false);
         root.lowerBound = lowerBound(root);
 
-        double upperBound = upperGreedy(root);
+        upperBound = upperGreedy(root);
         nodePool.add(root);
 
         BnBNode best = root;
-        int skipped = 0;
 
         while (!nodePool.isEmpty()) {
             BnBNode node = nodePool.poll();
 
-            if (node.lowerBound < upperBound) {
+
+            if (node.lowerBound <= upperBound) {
                 // Possible improvement
+
 
                 // If solution
                 if (node.edgesDefined == (graph.getVertices())) {
-                    double upper = upperGreedy(node);
-                    if (upper == node.lowerBound && upper < upperBound) {
+                    double upper = objectiveValue(node);
+                    if (upper == node.lowerBound && upper <= upperBound) {
                         best = node;
                         upperBound = upper;
                     }
                 } else {
                     branch(node, nodePool);
                 }
-            } else {
-                skipped++;
             }
         }
 
-        System.out.printf("Finished branch-and-bound. Path-length: %.3f, %d nodes generated. %d nodes skipped\n", best.lowerBound, nodesGenerated, skipped);
+        System.out.printf("Finished branch-and-bound. Path-length: %.3f, %d nodes generated\n", best.lowerBound, nodesGenerated);
         return best;
     }
 
@@ -126,16 +124,20 @@ public class BranchAndBound_TSP {
         if (uAdjMax > 2 && vAdjMax > 2) {
             n = new BnBNode(node, nextEdge, false);
             n.lowerBound = lowerBound(n);
-            nodePool.add(n);
-            nodesGenerated++;
+            if (n.lowerBound <= upperBound) {
+                nodePool.add(n);
+                nodesGenerated++;
+            }
         }
 
         //Include nextEdge (assuming constraints can be met)
         if ((node.edgesDefined == graph.getVertices() - 1 || ds.find(vertexSets[nextEdge.u]) != ds.find(vertexSets[nextEdge.v])) && uAdj < 2 && vAdj < 2) {
             n = new BnBNode(node, nextEdge, true);
             n.lowerBound = lowerBound(n);
-            nodePool.add(n);
-            nodesGenerated++;
+            if (n.lowerBound <= upperBound) {
+                nodePool.add(n);
+                nodesGenerated++;
+            }
         }
 
     }
@@ -187,6 +189,10 @@ public class BranchAndBound_TSP {
 
 
     public double upperGreedy(BnBNode node) {
+        if (node.edgesDefined == graph.getVertices()) {
+            return objectiveValue(node);
+        }
+
         List<Edge> edges = new ArrayList<>(graph.edges);
         edges.sort(Comparator.comparing(graph::getLength));
 
@@ -209,14 +215,30 @@ public class BranchAndBound_TSP {
         // Infeasible (?)
         if (edges.size() + tour.size() < graph.getVertices()) return Double.POSITIVE_INFINITY;
 
-        for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
-            Edge edge = iterator.next();
-            if (createsNoIllegalCycle(tour, edge) && degrees[edge.u] <= 1 && degrees[edge.v] <= 1) {
-                tour.add(edge);
-                degrees[edge.u]++;
-                degrees[edge.v]++;
-                iterator.remove();
-                if (tour.size() == graph.getVertices()) break;
+        if (tour.size() != graph.getVertices()) {
+            for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
+                Edge edge = iterator.next();
+                if (createsNoIllegalCycle(tour, edge) && (degrees[edge.u] < 1 && degrees[edge.v] <= 1 || degrees[edge.u] <= 1 && degrees[edge.v] < 1))
+                {
+                    tour.add(edge);
+                    degrees[edge.u]++;
+                    degrees[edge.v]++;
+                    iterator.remove();
+                    if (tour.size() == graph.getVertices()) break;
+                }
+            }
+        }
+
+        if (tour.size() != graph.getVertices()) {
+            for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
+                Edge edge = iterator.next();
+                if (createsNoIllegalCycle(tour, edge) && degrees[edge.u] <= 1 && degrees[edge.v] <= 1) {
+                    tour.add(edge);
+                    degrees[edge.u]++;
+                    degrees[edge.v]++;
+                    iterator.remove();
+                    if (tour.size() == graph.getVertices()) break;
+                }
             }
         }
 
@@ -253,7 +275,7 @@ public class BranchAndBound_TSP {
                 .sorted(Comparator.comparing(edge -> -graph.getLength(edge)))
                 .limit(graph.getVertices() - numberOfEdges)
                 .mapToDouble(edge -> graph.distances[edge.u][edge.v])
-                .sum() / 2;
+                .sum();
     }
 
     /**

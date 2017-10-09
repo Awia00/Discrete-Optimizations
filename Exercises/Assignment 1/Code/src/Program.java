@@ -5,13 +5,27 @@ import java.util.List;
 public class Program {
 
     public static void main(String[] args){
-        //cplexSolveGraph(new Instance1());
-        //cplexSolveGraph(new Instance2());
-        //cplexSolveGraph(new Instance3());
+//        cplexSolveGraph(new Instance1());
+//        cplexSolveGraph(new Instance2());
+//        cplexSolveGraph(new Instance3());
 
-        solveGraph(new Instance1());
-        solveGraph(new Instance2());
-        solveGraph(new Instance3());
+        cplex1SolveGraph(new Instance1());
+        cplex1SolveGraph(new Instance2());
+        cplex1SolveGraph(new Instance3());
+
+//        solveGraph(new Instance1());
+//        solveGraph(new Instance2());
+//        solveGraph(new Instance3());
+    }
+
+    public static void cplex1SolveGraph(Graph g){
+        TSPSimplex1 solver = new TSPSimplex1();
+        long start = System.nanoTime();
+        List<Edge> solution = solver.solve(g);
+        long end = System.nanoTime();
+        System.out.printf("Took %.2fms\n",(end-start)/1000000.0);
+        System.out.println(solution);
+        Visualization.visualizeSolution(g, solution);
     }
 
     public static void cplexSolveGraph(Graph g){
