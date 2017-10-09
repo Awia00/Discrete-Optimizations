@@ -29,7 +29,23 @@ public class Visualization {
 //		visualizeMST(g,n);
 		
 	}
-	
+
+	public static void visualizeSolution(Graph g, List<Edge> n){
+		J2DScene scene = J2DScene.createJ2DSceneInFrame();
+		for(Edge e: g.edges){
+			scene.addShape(new LineSegment(new Point(g.vertexCoords[e.u]), new Point(g.vertexCoords[e.v])), new Color(180,180,180));
+
+		}
+		for (Edge edge : n) {
+			scene.addShape(new LineSegment(new Point(g.vertexCoords[edge.u]), new Point(g.vertexCoords[edge.v])), Color.BLACK, 0.03);
+		}
+		int i=0;
+		for(double[] coords: g.vertexCoords){
+			scene.addShape(new Circle(new Point(coords), 0.1));
+			scene.addShape(new TextShape(""+(i++), new Point(coords), 0.1), Color.BLACK);
+		}
+	}
+
 	public static void visualizeSolution(Graph g, BnBNode n){
 		J2DScene scene = J2DScene.createJ2DSceneInFrame();
 		for(Edge e: g.edges){

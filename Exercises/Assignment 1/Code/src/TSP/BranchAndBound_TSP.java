@@ -269,5 +269,4 @@ public class BranchAndBound_TSP {
         }
         return pathLength;
     }
-
 }
