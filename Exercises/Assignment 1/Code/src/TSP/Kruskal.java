@@ -81,17 +81,20 @@ public class Kruskal {
 			}
 		}
 
-		Edge minOneIn = null, minOneOut = null;
-		for (Edge e : graph.edges) {
-			if(e.u == oneVertex && (minOneOut == null || graph.getLength(e)< graph.getLength(minOneOut))) {
-				minOneOut = e;
-			}
-			if(e.v == oneVertex && (minOneIn == null || graph.getLength(e) < graph.getLength(minOneIn))) {
-				minOneIn = e;
+		Edge cheapest = graph.incidentEdges[oneVertex].get(0), nextCheapest = null;
+		for (Edge e : graph.incidentEdges[oneVertex]) {
+			if(nextCheapest == null || graph.getLength(e) < graph.getLength(nextCheapest)){
+				if(graph.getLength(e) < graph.getLength(cheapest)){
+					nextCheapest = cheapest;
+					cheapest = e;
+				}
+				else {
+					nextCheapest = e;
+				}
 			}
 		}
-		mstEdges.add(minOneIn);
-		mstEdges.add(minOneOut);
+		mstEdges.add(cheapest);
+		mstEdges.add(nextCheapest);
 		return mstEdges;
 	}
 	

@@ -129,7 +129,8 @@ public class BranchAndBound_TSP {
         for (Edge edge : mst) {
             sum += graph.getLength(edge);
         }
-        return sum;
+		System.out.println(sum);
+		return sum;
 	}
 
 	public double upperBound(BnBNode node){
