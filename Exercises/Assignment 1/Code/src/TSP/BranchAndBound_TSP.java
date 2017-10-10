@@ -47,6 +47,9 @@ public class BranchAndBound_TSP {
         BnBNode root = new BnBNode(null, null, false);
         root.lowerBound = lowerBound(root);
 
+        double u = upperGreedySimple(root);
+        double u2 = upperBound(root);
+
         upperBound = upperGreedy(root);
         nodePool.add(root);
 
@@ -185,6 +188,59 @@ public class BranchAndBound_TSP {
         }
 
         return true;
+    }
+
+    public double upperGreedySimple(BnBNode node) {
+        Edge[] marked = new Edge[graph.getVertices()];
+        Set<Edge> edges = new HashSet<>();
+
+        BnBNode n = node;
+        while (n.parent != null) {
+            if (n.edgeIncluded) {
+                if (marked[n.edge.v] == null) {
+                    marked[n.edge.v] = n.edge;
+                } else if (marked[n.edge.u] == null) {
+                    marked[n.edge.u] = n.edge;
+                } else {
+                    System.err.println("Error :-(");
+                }
+                edges.add(n.edge);
+            }
+            n = n.parent;
+        }
+
+        for (int v = 0; v < marked.length; v++) {
+            if (marked[v] == null) {
+                Edge mostExpensive = null;
+                for (Edge edge : graph.incidentEdges[v]) {
+                    if (!edges.contains(edge)) {
+                        if (mostExpensive == null || graph.getLength(mostExpensive) < graph.getLength(edge)) {
+                            mostExpensive = edge;
+                        }
+                    }
+                }
+
+                if (mostExpensive != null) {
+                    edges.add(mostExpensive);
+                    marked[v] = mostExpensive;
+                }
+            }
+        }
+
+        if (edges.size() != graph.getVertices()) {
+            List<Edge> remainingEdges = new ArrayList<>(graph.edges);
+            remainingEdges.sort(Comparator.comparing(e -> -graph.getLength(e)));
+
+            for (Edge remainingEdge : remainingEdges) {
+                if (!edges.contains(remainingEdge)) {
+                    edges.add(remainingEdge);
+                    if (edges.size() == graph.getVertices()) break;
+                }
+            }
+        }
+
+        Visualization.visualizeSolution(graph, new ArrayList<>(edges));
+        return edges.stream().mapToDouble(graph::getLength).sum();
     }
 
 
