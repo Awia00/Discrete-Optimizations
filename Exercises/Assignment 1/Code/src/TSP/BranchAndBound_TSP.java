@@ -3,7 +3,6 @@ package TSP;
 import TSP.DisjointSet.DSNode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * An implementation of branch-and-bound for TSP with the lower-bound method missing.
@@ -47,10 +46,7 @@ public class BranchAndBound_TSP {
         BnBNode root = new BnBNode(null, null, false);
         root.lowerBound = lowerBound(root);
 
-        double u = upperGreedySimple(root);
-        double u2 = upperBound(root);
-
-        upperBound = upperGreedy(root);
+        upperBound = upperBound(root);
         nodePool.add(root);
 
         BnBNode best = root;
@@ -164,33 +160,7 @@ public class BranchAndBound_TSP {
         return sum;
     }
 
-    private boolean createsNoIllegalCycle(List<Edge> tour, Edge edgeToAdd) {
-        if (tour.size() == graph.getVertices() - 1) return true;
-
-        Stack<Integer> stack = new Stack<>();
-        stack.add(edgeToAdd.u);
-        boolean[] visited = new boolean[graph.getVertices()];
-
-        while (!stack.isEmpty()) {
-            int v = stack.pop();
-
-            if (!visited[v]) {
-                visited[v] = true;
-
-                for (Edge edge : tour.stream().filter(e -> e.u == v || e.v == v).collect(Collectors.toList())) {
-                    int w = edge.u == v ? edge.v : edge.u;
-
-                    if (w == edgeToAdd.v) return false;
-
-                    if (!visited[w]) stack.push(w);
-                }
-            }
-        }
-
-        return true;
-    }
-
-    public double upperGreedySimple(BnBNode node) {
+    private double upperBound(BnBNode node) {
         Edge[] marked = new Edge[graph.getVertices()];
         Set<Edge> edges = new HashSet<>();
 
@@ -241,97 +211,6 @@ public class BranchAndBound_TSP {
 
         Visualization.visualizeSolution(graph, new ArrayList<>(edges));
         return edges.stream().mapToDouble(graph::getLength).sum();
-    }
-
-
-    public double upperGreedy(BnBNode node) {
-        if (node.edgesDefined == graph.getVertices()) {
-            return objectiveValue(node);
-        }
-
-        List<Edge> edges = new ArrayList<>(graph.edges);
-        edges.sort(Comparator.comparing(graph::getLength));
-
-        int[] degrees = new int[graph.getVertices()];
-
-        List<Edge> tour = new ArrayList<>();
-
-        BnBNode n = node;
-        while (n.parent != null) {
-            if (n.edgeIncluded) {
-                tour.add(n.edge);
-                degrees[n.edge.v]++;
-                degrees[n.edge.u]++;
-            } else {
-                edges.remove(n.edge);
-            }
-            n = n.parent;
-        }
-
-        // Infeasible (?)
-        if (edges.size() + tour.size() < graph.getVertices()) return Double.POSITIVE_INFINITY;
-
-        if (tour.size() != graph.getVertices()) {
-            for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
-                Edge edge = iterator.next();
-                if (createsNoIllegalCycle(tour, edge) && (degrees[edge.u] < 1 && degrees[edge.v] <= 1 || degrees[edge.u] <= 1 && degrees[edge.v] < 1))
-                {
-                    tour.add(edge);
-                    degrees[edge.u]++;
-                    degrees[edge.v]++;
-                    iterator.remove();
-                    if (tour.size() == graph.getVertices()) break;
-                }
-            }
-        }
-
-        if (tour.size() != graph.getVertices()) {
-            for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
-                Edge edge = iterator.next();
-                if (createsNoIllegalCycle(tour, edge) && degrees[edge.u] <= 1 && degrees[edge.v] <= 1) {
-                    tour.add(edge);
-                    degrees[edge.u]++;
-                    degrees[edge.v]++;
-                    iterator.remove();
-                    if (tour.size() == graph.getVertices()) break;
-                }
-            }
-        }
-
-        // Not a tour
-        if (tour.size() != graph.getVertices()) return upperBound(node);
-
-        double upper = 0;
-        for (Edge edge : tour) {
-            upper += graph.getLength(edge);
-        }
-
-        return upper;
-    }
-
-    public double upperBound(BnBNode node) {
-        if (node.edgesDefined == graph.getVertices()) {
-            return objectiveValue(node);
-        }
-
-        double sum = 0;
-        int numberOfEdges = 0;
-        BnBNode n = node;
-        while (n.parent != null) {
-            if (n.edgeIncluded) {
-                sum += graph.getLength(n.edge);
-                numberOfEdges++;
-            }
-            n = n.parent;
-        }
-
-
-        return sum + graph.edges
-                .stream()
-                .sorted(Comparator.comparing(edge -> -graph.getLength(edge)))
-                .limit(graph.getVertices() - numberOfEdges)
-                .mapToDouble(edge -> graph.distances[edge.u][edge.v])
-                .sum();
     }
 
     /**
