@@ -37,14 +37,14 @@ First we calculate the number of subsets $S \subset V \text{ such that } |S| \le
 
 The compact formulation is as follows:
 
-\begin{alignat}{3}
+\begin{alignat*}{3}
 	\text{max: }    & \sum_{i,j \in V} c_{ij} x_{ij}\\
-	\text{s.t }     & \sum_{i \in V, i \neq j} x_{ij} = 1  && \text{ for } j \in V\\
-	& \sum_{j \in V, j \neq i} x_{ij} = 1  && \text{ for } i \in V\\
-	& t_j \geq t_i + 1-n(1-x_{ij})  && \text{ for } i \in V, j \in V \setminus \{1\}\\
-	& x_{ij} \in \{0,1\} \\
-	& t_i \in \mathbb{R}_+ 
-\end{alignat}
+	\text{s.t }     & \sum_{i \in V, i \neq j} x_{ij} = 1  && \text{ for } j \in V && (5)\\
+	& \sum_{j \in V, j \neq i} x_{ij} = 1  && \text{ for } i \in V && (6)\\
+	& t_j \geq t_i + 1-n(1-x_{ij})  && \text{ for } i \in V, j \in V \setminus \{1\} \quad && (7)\\
+	& x_{ij} \in \{0,1\} && && (8)\\
+	& t_i \in \mathbb{R}_+ && && (9)
+\end{alignat*}
 
 Constraints $(7)$ runs over two variables, $i,j$ which can have $n$ and $n-1$ different values respectively. Therefore there are $n(n-1) = n^2-n$ many constraints. Hence there are polynomially many constraints of this type.
 
