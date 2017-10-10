@@ -56,26 +56,26 @@ Consider the minimum cost Hamiltonian tour $H$, it goes through vertex $1$. Vert
 
 \section{Implementation part - branch-and-bound}
 \subsection{}
-We propose a simple heuristic, which while not necessarily can be used to generate feasible solutions, provides an upper bound to the $TSP$ as required. For each vertex of the graph pick the most expensive incident edge. If the edge is already in the upper bound solution pick the second most expensive. 
+We propose a simple heuristic, which while not necessarily can be used to generate feasible solutions, provides an upper bound to the $TSP$ as required. For each vertex of the graph pick the most expensive incident edge. If the edge is already in the upper bound solution pick the second most expensive. In the edge case that all edges to a vertex $i$ has been included in the upper bound solution. The remaining most expensive edge in the graph is taken instead.
 
-This is clearly an upper bound as the optimal solution will have to visit each vertex $i$ via an edge $e$ which will have lower than or equal to cost than the most expensive edge going to $i$. This can trivially be calculated in $\mathcal{O}(n+m)$ time, with the right data structure, where $n$ is the number of vertices and $m$ is the number of edges. This heuristic will work on any graph.
+This is clearly an upper bound as the optimal solution will have to visit each vertex $i$ via an edge $e$ which will have lower than or equal to cost than the most expensive edge going to $i$. This can trivially be calculated in $\mathcal{O}(n+m)$ time, with the right data structure, where $n$ is the number of vertices and $m$ is the number of edges. This heuristic will work on any graph and not necessarily only complete graphs.
 
 Using this heuristic the upper bound for instance $1$ is computed to $31.084$.
 
-\subsection{}
-Instance 1:
+\subsection*{2.2 / 2.3}
+\subsubsection*{Instance 1:}
 
 \newpar \textbf{Solved by branch-and-bound}\\
 Path-length: 8,649\\
 213750 nodes generated\\
 Took 1834,46ms
 
-\newpar \textbf{Solved by CPLEX using formulation from assignment 1.1}\\
-Path-length: 8.648571749039572\\
+\newpar \textbf{Solved by the sub-tour formulation}\\
+Path-length: 8.649\\
 Took 310,01ms
 
-\newpar \textbf{Solved by CPLEX using the formulation from assignment 1.3}\\
-Path-length: 8.648571749039572\\
+\newpar \textbf{Solved by the compact formulation}\\
+Path-length: 8.649\\
 Took 348,38ms
 
 \begin{figure}[H]
@@ -84,18 +84,18 @@ Took 348,38ms
 	\label{solution:1}
 \end{figure}
 
-\noindent Instance 2:
+\subsubsection*{Instance 2:}
 
 \newpar \textbf{Solved by branch-and-bound}\\
 Path-length: 19,030\\
 1539573 nodes generated\\
 Took 13099,38ms
 
-\newpar \textbf{Not solved by CPLEX using formulation from assignment 1.1}\\
-Too many subsets to build the CPLEX-instance.
+\newpar \textbf{Not solved by the sub-tour formulation}\\
+Too many subsets to be generated constraints for.
 
-\newpar \textbf{Solved by CPLEX using the formulation from assignment 1.3}\\
-Path-length: 19.02956846604248\\
+\newpar \textbf{Solved by the compact formulation}\\
+Path-length: 19.030\\
 Took 221,01ms
 
 \begin{figure}[H]
@@ -104,15 +104,15 @@ Took 221,01ms
 	\label{solution:2}
 \end{figure}
 
-\newpar Instance 3:
+\subsubsection*{Instance 3:}
 
 \newpar \textbf{Not solved by branch-and-bound due to time limits.}
 
-\newpar \textbf{Not solved by CPLEX using formulation from assignment 1.1}\\
-Too many subsets to be generated.
+\newpar \textbf{Not solved by the sub-tour formulation}\\
+Too many subsets to be generated. constraints for.
 
-\newpar \textbf{Solved by CPLEX using the formulation from assignment 1.3}\\
-Path-length: 26.544022448704812\\
+\newpar \textbf{Solved by the compact formulation}\\
+Path-length: 26.540\\
 Took 1370,51ms
 
 \begin{figure}[H]
@@ -121,5 +121,4 @@ Took 1370,51ms
 	\label{solution:3}
 \end{figure}
 
-
-\subsection{}
+\newpar Generally branch and bound is slower than both the CPLEX formulations except for instance two for which the sub tour formulation did not succeed. In the provided code the branch and bound implementation branches on edges in a specific order rather than branching on edges from a node with degree 3 or higher in the one-tree. This means that the lower bound has little to no effect on the number of branch and bound nodes. We observed that a lower bound of always $0$, returned the same number of branch and bound nodes. This could also be due to the fact that upper bounds were not included in the implementation.
