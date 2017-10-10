@@ -197,6 +197,7 @@ public class BranchAndBound_TSP {
             }
         }
 
+        // edge case
         if (edges.size() != graph.getVertices()) {
             List<Edge> remainingEdges = new ArrayList<>(graph.edges);
             remainingEdges.sort(Comparator.comparing(e -> -graph.getLength(e)));
@@ -209,7 +210,6 @@ public class BranchAndBound_TSP {
             }
         }
 
-        Visualization.visualizeSolution(graph, new ArrayList<>(edges));
         return edges.stream().mapToDouble(graph::getLength).sum();
     }
 

@@ -5,7 +5,7 @@ import java.util.List;
 public class Program {
 
     public static void main(String[] args){
-//        cplexSubTourSolveGraph(new Instance1());
+        cplexSubTourSolveGraph(new Instance1());
 //        cplexSubTourSolveGraph(new Instance2());
 //        cplexSubTourSolveGraph(new Instance3());
 
@@ -13,9 +13,9 @@ public class Program {
         cplexCompactSolveGraph(new Instance2());
         cplexCompactSolveGraph(new Instance3());
 
-//        solveGraph(new Instance1());
-//        solveGraph(new Instance2());
-//        solveGraph(new Instance3());
+        solveByBranchAndBound(new Instance1());
+        solveByBranchAndBound(new Instance2());
+//        solveByBranchAndBound(new Instance3());
     }
 
     public static void cplexCompactSolveGraph(Graph g){
@@ -25,7 +25,7 @@ public class Program {
         long end = System.nanoTime();
         System.out.printf("Took %.2fms\n",(end-start)/1000000.0);
         System.out.println(solution);
-        Visualization.visualizeSolution(g, solution);
+        //Visualization.visualizeSolution(g, solution);
     }
 
     public static void cplexSubTourSolveGraph(Graph g){
@@ -35,16 +35,16 @@ public class Program {
         long end = System.nanoTime();
         System.out.printf("Took %.2fms\n",(end-start)/1000000.0);
         System.out.println(solution);
-        Visualization.visualizeSolution(g, solution);
+        //Visualization.visualizeSolution(g, solution);
     }
 
-    public static void solveGraph(Graph g){
+    public static void solveByBranchAndBound(Graph g){
         BranchAndBound_TSP solver = new BranchAndBound_TSP(g);
         long start = System.nanoTime();
         BnBNode n = solver.solve();
         long end = System.nanoTime();
         System.out.printf("Took %.2fms\n",(end-start)/1000000.0);
 		System.out.println(n);
-		Visualization.visualizeSolution(g, n);//Requires ProGAL (www.diku.dk/~rfonseca/ProGAL)
+		//Visualization.visualizeSolution(g, n);//Requires ProGAL (www.diku.dk/~rfonseca/ProGAL)
     }
 }
