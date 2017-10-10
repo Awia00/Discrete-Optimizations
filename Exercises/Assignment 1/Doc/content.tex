@@ -55,13 +55,11 @@ Consider the minimum cost Hamiltonian tour, it goes through vertex $1$. Vertex $
 
 \section{Implementation part - branch-and-bound}
 \subsection{}
-\begin{enumerate}
-	\item Sort edges increasingly by distance
-	\item Take the shortest edge that does not increase the degree of its vertices above 2 and does not create a cycle of length shorter than $|V|$. Add the edge to the tour.
-	\item Repeat step 2 until we have $|V|$ edges in the tour.
-\end{enumerate}
+We propose a simple heuristic, which while not necessarily can be used to generate feasible solutions, provides an upper bound to the $TSP$ as required. For each vertex of the graph pick the most expensive incident edge. If the edge is already in the upper bound solution pick the second most expensive. 
 
-This heuristic can only be guaranteed to create solutions for complete graphs, since a bad choice of an edge, can render the tour infeasible.
+This is clearly an upper bound as the optimal solution will have to visit each vertex $i$ via an edge $e$ which will have lower than or equal to cost than the most expensive edge going to $i$. This can trivially be calculated in $\mathcal{O}(n+m)$ time, with the right data structure, where $n$ is the number of vertices and $m$ is the number of edges. This heuristic will work on any graph.
+
+Using this heuristic the upper bound for instance $1$ is computed to $31.084$.
 
 \subsection{}
 Instance 1:
