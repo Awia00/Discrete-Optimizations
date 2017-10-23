@@ -1,8 +1,8 @@
 import java.util.Random;
 
-public class RandomizedRoundingSetCoverApproximator implements SetCoverApproximator {
+public class RandomizedRoundingSetCoverApproximator implements SetCoverSolver {
     @Override
-    public int approximateSetCover(SetCoverInstance instance) {
+    public int solveSetCover(SetCoverInstance instance) {
         SetCoverSimplex simplexSolver = new SetCoverSimplex();
         SetCoverResult setCoverResult = simplexSolver.solveLPSetCover(instance);
         Random random = new Random();
@@ -20,12 +20,12 @@ public class RandomizedRoundingSetCoverApproximator implements SetCoverApproxima
 
         int result = 0;
         for (int i = 0; i < setCoverResult.covers.length; i++) {
-            if(setCoverResult.covers[i] >= 1){
+            if(setCoverResult.covers[i] == 1){
                 result += instance.costs[i];
             }
         }
 
-        // todo: do check if every element is in the cover and that the cost is less 4c*log(n)
+        // todo: do check if every element is in the cover and that the cost is less 4*c*log(n)
         // if not just recursively call approximateSetCover
         return result;
     }

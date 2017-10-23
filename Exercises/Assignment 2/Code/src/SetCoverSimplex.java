@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class SetCoverSimplex {
+public class SetCoverSimplex implements SetCoverSolver{
 
-    public SetCoverResult solveSetCover(SetCoverInstance instance) {
+    public int solveSetCover(SetCoverInstance instance) {
         try {
             IloCplex cplex = new IloCplex();
             IloIntVar[] x = cplex.boolVarArray(instance.n);
@@ -54,7 +54,8 @@ public class SetCoverSimplex {
                     assert ((int)cover==cover);
                 }
 
-                return new SetCoverResult(result, covers);
+                return result;
+                //return new SetCoverResult(result, covers);
             }
             throw new RuntimeException("Something went wrong");
         } catch (IloException e) {
