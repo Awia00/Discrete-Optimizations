@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class SetCoverSimplex {
 
-    public int solveSetCover(SetCoverInstance instance) {
+    public SetCoverResult solveSetCover(SetCoverInstance instance) {
         try {
             IloCplex cplex = new IloCplex();
             IloIntVar[] x = cplex.boolVarArray(instance.n);
@@ -48,9 +48,13 @@ public class SetCoverSimplex {
             if(cplex.solve()){
                 double r = cplex.getObjValue();
                 result = (int)r;
-                if(r == result){
-                    return result;
+                assert (r==result);
+                double[] covers = new double[instance.n];
+                for (double cover : covers) {
+                    assert ((int)cover==cover);
                 }
+
+                return new SetCoverResult(result, covers);
             }
             throw new RuntimeException("Something went wrong");
         } catch (IloException e) {
@@ -58,7 +62,7 @@ public class SetCoverSimplex {
         }
     }
 
-    public double solveLPSetCover(SetCoverInstance instance) {
+    public SetCoverResult solveLPSetCover(SetCoverInstance instance) {
         try {
             IloCplex cplex = new IloCplex();
             IloNumVar[] x = cplex.numVarArray(instance.n,0,1);
@@ -91,8 +95,8 @@ public class SetCoverSimplex {
                 cplex.addGe(expr, 1);
             }
 
-            if(cplex.solve()){
-                return cplex.getObjValue();
+            if(cplex.solve()) {
+                return new SetCoverResult(cplex.getObjValue(), cplex.getValues(x));
             }
             throw new RuntimeException("Something went wrong");
         } catch (IloException e) {
