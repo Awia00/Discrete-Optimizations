@@ -1,6 +1,7 @@
 import ilog.concert.IloException;
 import ilog.concert.IloIntVar;
 import ilog.concert.IloLinearNumExpr;
+import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex;
 
 public class SetCoverSimplex {
@@ -42,10 +43,10 @@ public class SetCoverSimplex {
         }
     }
 
-    public float solveLPSetCover(SetCoverInstance instance) {
+    public double solveLPSetCover(SetCoverInstance instance) {
         try {
             IloCplex cplex = new IloCplex();
-            IloIntVar[] x = cplex.boolVarArray(instance.n);
+            IloNumVar[] x = cplex.numVarArray(instance.n,0,1);
 
             // add objective
             IloLinearNumExpr obj = cplex.linearNumExpr();
@@ -65,13 +66,8 @@ public class SetCoverSimplex {
                 cplex.addGe(expr, 1);
             }
 
-            int result = 0;
             if(cplex.solve()){
-                double r = cplex.getObjValue();
-                result = (int)r;
-                if(r == result){
-                    return result;
-                }
+                return cplex.getObjValue();
             }
             throw new RuntimeException("Something went wrong");
         } catch (IloException e) {
