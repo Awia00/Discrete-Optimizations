@@ -34,7 +34,7 @@ public class SetCoverSimplex {
                 double r = cplex.getObjValue();
                 result = (int)r;
                 assert (r==result);
-                double[] covers = new double[instance.n];
+                double[] covers = cplex.getValues(x);
                 for (double cover : covers) {
                     assert ((int)cover==cover);
                 }
