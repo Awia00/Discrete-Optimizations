@@ -19,7 +19,8 @@ public class Program {
             SetCoverSolver[] solvers = new SetCoverSolver[] {
                     new SetCoverSimplex(),
                     new SimpleRoundingSetCoverApproximator(),
-                    new RandomizedRoundingSetCoverApproximator()
+                    new RandomizedRoundingSetCoverApproximator(),
+                    new PrimalDualSchemaSetCoverApproximator()
             };
 
             for (SetCoverSolver solver : solvers) {
