@@ -27,7 +27,7 @@ public class SimpleRoundingSetCoverApproximator implements SetCoverSolver {
 
         int result = 0;
         for (int i = 0; i < setCoverResult.covers.length; i++) {
-            if(setCoverResult.covers[i] > 1/f)
+            if(setCoverResult.covers[i] > 1d/f)
             {
                 result += instance.costs[i];
             }

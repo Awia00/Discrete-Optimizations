@@ -23,7 +23,7 @@ public class Program {
                 new PrimalDualSchemaSetCoverApproximator()
         };
 
-        System.out.println("Parsing");
+        System.err.println("Parsing");
         SetCoverInstance[] instances = Arrays.stream(fileNames).map(fileName -> {
             try {
                 return SetCoverParser.ParseSetCover(fileName);
@@ -31,22 +31,23 @@ public class Program {
                 throw new RuntimeException(e);
             }
         }).toArray(SetCoverInstance[]::new);
-        System.out.println("Parsing done." + System.lineSeparator());
+        System.err.println("Parsing done.");
 
         for (SetCoverSolver solver : solvers) {
-
-            System.out.println("Solver: " + solver.getClass().getName());
-
             for (SetCoverInstance instance : instances) {
-                System.out.println("Instance: " + instance.fileName);
-                System.out.println("m = " + instance.m + ". n = " + instance.n);
+                if (instance.fileName.equals(fileNames[fileNames.length - 1]) && solver.getClass() == SetCoverSimplex.class) {
+                    System.out.printf("%s;%s;%d;%d;SKIPPED;SKIPPED\n", solver.getClass().getName(), instance.fileName, instance.m, instance.n);
+                    continue;
+                }
 
                 long time = System.currentTimeMillis();
-                System.out.println("Solution: " + solver.solveSetCover(instance));
-                System.out.println("Time: " + (System.currentTimeMillis() - time) + " ms" + System.lineSeparator());
+                int solution = solver.solveSetCover(instance);
+                time = System.currentTimeMillis() - time;
+
+                System.out.printf("%s;%s;%d;%d;%d;%d\n", solver.getClass().getName(), instance.fileName, instance.m, instance.n, solution, time);
             }
 
-            System.out.println(System.lineSeparator());
+            System.out.println();
         }
     }
 }

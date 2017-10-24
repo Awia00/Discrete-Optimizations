@@ -9,12 +9,10 @@ public class RandomizedRoundingSetCoverApproximator implements SetCoverSolver {
         SetCoverResult setCoverResult = simplexSolver.solveLPSetCover(instance);
         Random random = new Random();
 
-        int c = 1; // calculate c
-        while (Math.exp(-c * Math.log(instance.m)) > 1 / (4*instance.m)) {
-            c++;
-        }
+        // calculate c
+        double c = Math.log(4*instance.m) / Math.log(instance.m);
 
-        int rounds = (int) ((c)*Math.log(instance.n));
+        int rounds = (int) (c*Math.log(instance.m));
 
         for (int i = 0; i < rounds; i++) {
             for (int j = 0; j < setCoverResult.covers.length; j++) {
@@ -42,8 +40,8 @@ public class RandomizedRoundingSetCoverApproximator implements SetCoverSolver {
             }
         }
 
-        // check if every element is in the cover and that the cost is less 4*c*log(n)
-        if (coveredElements.size() != instance.m || result >= 4 * c * Math.log(instance.m)) {
+        // check if every element is in the cover and that the cost is less OPT_f*4*c*log(n)
+        if (coveredElements.size() != instance.m || result >= setCoverResult.cost * 4 * c * Math.log(instance.m)) {
             // if not just recursively call solveSetCover
             return solveSetCover(instance);
         }
