@@ -29,7 +29,7 @@ public class SetCoverParser {
                         String[] cStrings = line.replace("c = [ ", "").replace("];", "").split(" ");
                         assert cStrings.length == n;
                         for (int i = 0; i < cStrings.length; i++) {
-                            c[i] = Integer.parseInt(cStrings[i]) - 1;
+                            c[i] = Integer.parseInt(cStrings[i]);
                         }
                         break;
                     case "covers":

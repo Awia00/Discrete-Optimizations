@@ -5,18 +5,25 @@ public class Program {
     
     public static void main(String[] args){
         try {
-            String fileName = "res/scpa3.dat";
+            String[] fileNames = new String[] {
+                    "res/scpa3.dat",
+                    "res/scpc3.dat",
+                    "res/scpnrf1.dat",
+                    "res/scpnrg5.dat"
+            };
 
             if (args.length > 0) {
-                fileName = args[0];
+                fileNames = new String[] { args[0] };
             }
 
-            SetCoverInstance instance = SetCoverParser.ParseSetCover(fileName);
+            for (String fileName : fileNames) {
+                System.out.println("Instance: " + fileName);
+                SetCoverInstance instance = SetCoverParser.ParseSetCover(fileName);
+                System.out.println("m = " + instance.m + ". n = " + instance.n);
 
-            System.out.println("Solution: " + new SetCoverSimplex().solveSetCover(instance));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+                System.out.println("Solution: " + new SetCoverSimplex().solveSetCover(instance));
+            }
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
