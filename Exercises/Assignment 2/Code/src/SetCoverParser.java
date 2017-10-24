@@ -48,7 +48,7 @@ public class SetCoverParser {
                 }
             }
 
-            return new SetCoverInstance(n, m, covers.toArray(new IsIn[covers.size()]), c);
+            return new SetCoverInstance(fileName, n, m, covers.toArray(new IsIn[covers.size()]), c);
         }
     }
 }
