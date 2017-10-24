@@ -15,6 +15,8 @@ public class SetCoverSimplex implements SetCoverSolver{
     public int solveSetCover(SetCoverInstance instance) {
         try {
             IloCplex cplex = new IloCplex();
+            cplex.setOut(null);
+//            cplex.setOut(System.err);
             IloIntVar[] x = cplex.boolVarArray(instance.n);
 
             // add objective
@@ -66,6 +68,7 @@ public class SetCoverSimplex implements SetCoverSolver{
     public SetCoverResult solveLPSetCover(SetCoverInstance instance) {
         try {
             IloCplex cplex = new IloCplex();
+            cplex.setOut(null);
             IloNumVar[] x = cplex.numVarArray(instance.n,0,1);
 
             // add objective

@@ -16,13 +16,27 @@ public class Program {
                 fileNames = new String[] { args[0] };
             }
 
-            for (String fileName : fileNames) {
-                System.out.println("Instance: " + fileName);
-                SetCoverInstance instance = SetCoverParser.ParseSetCover(fileName);
-                System.out.println("m = " + instance.m + ". n = " + instance.n);
+            SetCoverSolver[] solvers = new SetCoverSolver[] {
+                    new SetCoverSimplex(),
+                    new SimpleRoundingSetCoverApproximator(),
+                    new RandomizedRoundingSetCoverApproximator()
+            };
 
-                System.out.println("Solution: " + new SetCoverSimplex().solveSetCover(instance));
+            for (SetCoverSolver solver : solvers) {
+                System.out.println("Solver: " + solver.getClass().getName());
+
+                for (String fileName : fileNames) {
+                    System.out.println("Instance: " + fileName);
+                    SetCoverInstance instance = SetCoverParser.ParseSetCover(fileName);
+                    System.out.println("m = " + instance.m + ". n = " + instance.n);
+
+                    System.out.println("Solution: " + solver.solveSetCover(instance));
+                }
+
+                System.out.println();
+                System.out.println();
             }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
