@@ -1,22 +1,19 @@
 % !TeX spellcheck=en_GB
 \section{Theoretical part}
-\begin{math}
-Pr[C'\text{ has } \frac{n}{2} \text{ elements and has cost } \leq \mathcal{O}\left(OPT\right)]\\
-\\
-Pr[C' \text{ does not cover at least } \frac{n}{2} \text{ elements}] \leq \frac{n}{2} \frac{1}{4n} \leq \frac{1}{8}\\
-\\
-Pr[C' \text{ does cover at least } \frac{n}{2} \text{ elements}] \geq \frac{7}{8}
-\end{math}
+Unfortunately, we have not had any lectures on probabilities of random variables, and therefore, we do not have the know-how to give this proof.
+
+\newpar If we gave a solution, it would seem that we know how to solve this kind of exercise, but it would merely be a coincidence, if it was correct.
 
 \section{Implementation part}
 \begin{table}[H]
+	\centering
 	\begin{tabularx}{\linewidth}{|X|l|r|X|X|}
 		\hline
 		\textbf{Method} & \textbf{Instance} & \textbf{Best value} & \textbf{Computation time (ms)} & \textbf{Ratio to optimal}\\\hline
 		CPLEX & scpa3 & 232 & 1.141 & 1\\\hline
 		CPLEX & scpc3 & 243 & 4.240 & 1\\\hline
 		CPLEX & scpnrf1 & 14 & 44.488 & 1\\\hline
-		CPLEX & scpnrg5 & DNF* & > 5.400.000 & N/A\\\hline\hline
+		CPLEX & scpnrg5 & DNF* & $>$ 5.400.000 & N/A\\\hline\hline
 		Simple Rounding & scpa3 & 449 & 52 & 1.94\\\hline
 		Simple Rounding & scpc3 & 544 & 101 & 2.24\\\hline
 		Simple Rounding & scpnrf1 & 76 & 728 & 5.43\\\hline
@@ -30,7 +27,7 @@ Pr[C' \text{ does cover at least } \frac{n}{2} \text{ elements}] \geq \frac{7}{8
 		Primal Dual & scpnrf1 & 43 & 175 & 3.07\\\hline
 		Primal Dual & scpnrg5 & 412 & 201 & 2.45**\\\hline
 	\end{tabularx}
-	\caption{Contains results for each method applied on each instance.\\ *: The best found solution after 90 minutes has value 168.\\ **: 168 is used as optimal value in these calculations.}
+	\caption{Results for each method applied on each instance.\\ $*$: The best found solution after 90 minutes has value 168.\\ $**$: 168 is used as optimal value in these calculations.}
 \end{table}
 
 
