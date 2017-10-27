@@ -1,3 +1,5 @@
+package setcover;
+
 public class IsIn {
     public final int element;
     // is in

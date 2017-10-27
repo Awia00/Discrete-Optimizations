@@ -1,10 +1,12 @@
+package setcover.solvers;
+
 import java.util.HashSet;
 import java.util.Set;
 
-public class SimpleRoundingSetCoverApproximator implements SetCoverSolver {
+public class SimpleRoundingApproximator implements SetCoverSolver {
     @Override
     public int solveSetCover(SetCoverInstance instance) {
-        SetCoverSimplex simplexSolver = new SetCoverSimplex();
+        CPLEXSolver simplexSolver = new CPLEXSolver();
         SetCoverResult setCoverResult = simplexSolver.solveLPSetCover(instance);
 
         //noinspection unchecked

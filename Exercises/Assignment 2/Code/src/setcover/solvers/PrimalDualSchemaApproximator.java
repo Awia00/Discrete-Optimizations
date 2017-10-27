@@ -1,9 +1,14 @@
+package setcover.solvers;
+
+import setcover.IsIn;
+import setcover.SetCoverInstance;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class PrimalDualSchemaSetCoverApproximator implements SetCoverSolver {
+public class PrimalDualSchemaApproximator implements SetCoverSolver {
     @Override
     public int solveSetCover(SetCoverInstance instance) {
         int[] x = new int[instance.n], y = new int[instance.m];
@@ -86,7 +91,7 @@ public class PrimalDualSchemaSetCoverApproximator implements SetCoverSolver {
     /**
      * Checks whether a single set is tight in y with regards to its cost c_S.
      * @param s The set to check for tightness.
-     * @param c_S The cost of picking this set for the Set Cover Problem.
+     * @param c_S The cost of picking this set for the Set setcover.Cover Problem.
      * @param y The y vector, representing the dual variables.
      * @return true if the set is tight with respect to c_S and y.
      */
