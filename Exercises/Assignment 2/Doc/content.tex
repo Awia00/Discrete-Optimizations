@@ -12,22 +12,22 @@ The computation table for the algorithms ca be seen below. The $f$ values are $s
 	\begin{tabularx}{\linewidth}{|X|l|r|X|X|}
 		\hline
 		\textbf{Method} & \textbf{Instance} & \textbf{Best value} & \textbf{Computation time (ms)} & \textbf{Ratio to optimal}\\\hline
-		CPLEX & scpa3 & 232 & 1.141 & 1\\\hline
-		CPLEX & scpc3 & 243 & 4.240 & 1\\\hline
-		CPLEX & scpnrf1 & 14 & 44.488 & 1\\\hline
-		CPLEX & scpnrg5 & DNF* & $>$ 5.400.000 & N/A\\\hline\hline
-		Simple Rounding & scpa3 & 449 & 52 & 1.94\\\hline
-		Simple Rounding & scpc3 & 544 & 101 & 2.24\\\hline
-		Simple Rounding & scpnrf1 & 76 & 728 & 5.43\\\hline
-		Simple Rounding & scpnrg5 & 585 & 1.692 & 3.48**\\\hline\hline
-		Randomized Rounding & scpa3 & 449 & 59 & 1.94\\\hline
-		Randomized Rounding & scpc3 & 502 & 164 & 2.07\\\hline
-		Randomized Rounding & scpnrf1 & 35 & 628 & 2.5\\\hline
-		Randomized Rounding & scpnrg5 & 463 & 1.013 & 2.76**\\\hline\hline
-		Primal Dual & scpa3 & 448 & 92 & 1.93\\\hline
-		Primal Dual & scpc3 & 463 & 52 & 1.91\\\hline
-		Primal Dual & scpnrf1 & 43 & 175 & 3.07\\\hline
-		Primal Dual & scpnrg5 & 412 & 201 & 2.45**\\\hline
+		CPLEX & scpa3 & 232 & 283 & 1\\\hline
+		CPLEX & scpc3 & 243 & 839 & 1\\\hline
+		CPLEX & scpnrf1 & 14 & 10.332 & 1\\\hline
+		CPLEX & scpnrg5 & DNF* & $>$ 3.600.000 & N/A\\\hline\hline
+		Simple Rounding & scpa3 & 449 & 22 & 1.94\\\hline
+		Simple Rounding & scpc3 & 544 & 39 & 2.24\\\hline
+		Simple Rounding & scpnrf1 & 76 & 223 & 5.43\\\hline
+		Simple Rounding & scpnrg5 & 585 & 566 & 3.48**\\\hline\hline
+		Randomized Rounding & scpa3 & 406 & 20 & 1.75\\\hline
+		Randomized Rounding & scpc3 & 478 & 36 & 1.96\\\hline
+		Randomized Rounding & scpnrf1 & 44 & 242 & 3.14\\\hline
+		Randomized Rounding & scpnrg5 & 421 & 557 & 2.51**\\\hline\hline
+		Primal Dual & scpa3 & 448 & 29 & 1.93\\\hline
+		Primal Dual & scpc3 & 463 & 19 & 1.91\\\hline
+		Primal Dual & scpnrf1 & 43 & 75 & 3.07\\\hline
+		Primal Dual & scpnrg5 & 412 & 65 & 2.45**\\\hline
 	\end{tabularx}
 	\caption{Results for each method applied on each instance.\\ $*$: The best found solution after 90 minutes has value 168.\\ $**$: 168 is used as optimal value in these calculations.}
 \end{table}
