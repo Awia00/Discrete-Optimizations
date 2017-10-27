@@ -32,6 +32,6 @@ The computation table for the algorithms ca be seen below. The $f$ values are $s
 	\caption{Results for each method applied on each instance.\\ $*$: The best found solution after 90 minutes has value 168.\\ $**$: 168 is used as optimal value in these calculations.}
 \end{table}
 
-All of the results provide solutions which are closer to optimal than the guaranteed $f-OPT$. For all the algorithms, the solutions to instance $scpnrf1$ is further away than any of the other instances. This corresponds nicely to the fact that $f$ value of the instance is much higher than the others. Generally there is a trend between ratio to optimality and the $f$ values, which while nice might be purely coincidental.
+All of the results provide solutions which are closer to optimal than the guaranteed $f-OPT$. For all the algorithms, the solutions to instance $scpnrf1$ is further away than any of the other instances. This corresponds nicely to the fact that $f$ value of the instance is much higher than the others. Generally there is a trend between ratio to optimality and the $f$ values, which while intuitively fitting is not guaranteed by the theory.
 
 The implemented approximation algorithms can be seen in \textit{SimpleRoundingApproximator.java}, \textit{RandomizedRoundingApproximator.java} and \textit{PrimalDualSchemaApproximator.java}. As the name implies we decided to solve 2.3 with the Primal Dual Schema algorithm presented in the text by Vazirani.
