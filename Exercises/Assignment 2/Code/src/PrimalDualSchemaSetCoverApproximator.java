@@ -34,7 +34,7 @@ public class PrimalDualSchemaSetCoverApproximator implements SetCoverSolver {
 
             // For each of the tight sets (this could probably be optimized to only return a set if
             // it was affected by the recent increment.
-            for (Integer tightSet : tightSets(S, instance.costs, y)) {
+            for (Integer tightSet : tightSets(S, instance.costs, y, uncovered)) {
                 // Chose the set for the cover
                 x[tightSet] = 1;
                 // And mark all the elements of the set as covered.
@@ -58,11 +58,11 @@ public class PrimalDualSchemaSetCoverApproximator implements SetCoverSolver {
      * @param y The y vector, representing the dual variables.
      * @return A list containing indices of all tight sets.
      */
-    private List<Integer> tightSets(final Set<Integer>[] S, final int[] c, final int[] y) {
+    private List<Integer> tightSets(final Set<Integer>[] S, final int[] c, final int[] y, int e) {
         List<Integer> res = new ArrayList<>();
 
         for (int i = 0; i < S.length; i++) {
-            if (isTight(S[i], c[i], y)) res.add(i);
+            if (S[i].contains(e) && isTight(S[i], c[i], y)) res.add(i);
         }
 
         return res;
