@@ -5,6 +5,8 @@ Unfortunately, we have not had any lectures on probabilities of random variables
 \newpar If we gave a solution, it would seem that we know how to solve this kind of exercise, but it would merely be a coincidence, if it was correct.
 
 \section{Implementation part}
+The computation table for the algorithms ca be seen below. The $f$ values are $scpa3: 17$, $scpc3: 18$, $scpnrf1: 132$ and $scpnrg5: 41$.
+
 \begin{table}[H]
 	\centering
 	\begin{tabularx}{\linewidth}{|X|l|r|X|X|}
@@ -30,7 +32,7 @@ Unfortunately, we have not had any lectures on probabilities of random variables
 	\caption{Results for each method applied on each instance.\\ $*$: The best found solution after 90 minutes has value 168.\\ $**$: 168 is used as optimal value in these calculations.}
 \end{table}
 
-
+All of the results provide solutions which are closer to optimal the guaranteed $f-OPT$. For all the algorithms, the solutions to instance $scpnrf1$ is further away than any of the other instances. This corresponds nicely to the fact that $f$ value of the instance is much higher than the others. Generally there is a trend between ratio to optimality and the $f$ values, which while nice might be purely coincidental.
 
 \noindent
-The implemented approximation algorithms can be seen in \textit{SimpleRoundingApproximator.java}, \textit{RandomizedRoundingApproximator.java} and \textit{PrimalDualSchemaApproximator.java}. As the name implies we decided to solve 2.3 with the Primal Dual Schema presented in the text by Vazirani.
+The implemented approximation algorithms can be seen in \textit{SimpleRoundingApproximator.java}, \textit{RandomizedRoundingApproximator.java} and \textit{PrimalDualSchemaApproximator.java}. As the name implies we decided to solve 2.3 with the Primal Dual Schema algorithm presented in the text by Vazirani.
