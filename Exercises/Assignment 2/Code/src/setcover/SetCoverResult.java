@@ -1,3 +1,5 @@
+package setcover;
+
 import java.util.Arrays;
 
 public class SetCoverResult {
@@ -11,7 +13,7 @@ public class SetCoverResult {
 
     @Override
     public String toString() {
-        return "SetCoverResult{" +
+        return "setcover.SetCoverResult{" +
                 "cost=" + cost +
                 ", covers=" + Arrays.toString(covers) +
                 '}';

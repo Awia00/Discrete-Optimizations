@@ -1,3 +1,5 @@
+package setcover;
+
 public class SetCoverInstance {
     public final String fileName;
     public final int n; // number of sets

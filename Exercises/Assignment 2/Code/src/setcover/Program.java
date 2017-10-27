@@ -1,3 +1,7 @@
+package setcover;
+
+import setcover.solvers.*;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
@@ -17,10 +21,10 @@ public class Program {
         }
 
         SetCoverSolver[] solvers = new SetCoverSolver[]{
-                new SetCoverSimplex(),
-                new SimpleRoundingSetCoverApproximator(),
-                new RandomizedRoundingSetCoverApproximator(),
-                new PrimalDualSchemaSetCoverApproximator()
+                new CPLEXSolver(),
+                new SimpleRoundingApproximator(),
+                new RandomizedRoundingApproximator(),
+                new PrimalDualSchemaApproximator()
         };
 
         System.err.println("Parsing");
@@ -35,7 +39,7 @@ public class Program {
 
         for (SetCoverSolver solver : solvers) {
             for (SetCoverInstance instance : instances) {
-                if (instance.fileName.equals(fileNames[fileNames.length - 1]) && solver.getClass() == SetCoverSimplex.class) {
+                if (instance.fileName.equals(fileNames[fileNames.length - 1]) && solver.getClass() == CPLEXSolver.class) {
                     System.out.printf("%s;%s;%d;%d;SKIPPED;SKIPPED\n", solver.getClass().getName(), instance.fileName, instance.m, instance.n);
                     continue;
                 }

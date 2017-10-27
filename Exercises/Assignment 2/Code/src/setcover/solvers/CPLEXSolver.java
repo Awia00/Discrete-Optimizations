@@ -1,16 +1,20 @@
+package setcover.solvers;
 
 import ilog.concert.IloException;
 import ilog.concert.IloIntVar;
 import ilog.concert.IloLinearNumExpr;
 import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex;
+import setcover.IsIn;
+import setcover.SetCoverInstance;
+import setcover.SetCoverResult;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class SetCoverSimplex implements SetCoverSolver{
+public class CPLEXSolver implements SetCoverSolver {
 
     public int solveSetCover(SetCoverInstance instance) {
         try {
@@ -57,7 +61,7 @@ public class SetCoverSimplex implements SetCoverSolver{
                 }
 
                 return result;
-                //return new SetCoverResult(result, covers);
+                //return new setcover.SetCoverResult(result, covers);
             }
             throw new RuntimeException("Something went wrong");
         } catch (IloException e) {

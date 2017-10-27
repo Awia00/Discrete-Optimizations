@@ -1,11 +1,17 @@
+package setcover.solvers;
+
+import setcover.IsIn;
+import setcover.SetCoverInstance;
+import setcover.SetCoverResult;
+
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class RandomizedRoundingSetCoverApproximator implements SetCoverSolver {
+public class RandomizedRoundingApproximator implements SetCoverSolver {
     @Override
     public int solveSetCover(SetCoverInstance instance) {
-        SetCoverSimplex simplexSolver = new SetCoverSimplex();
+        CPLEXSolver simplexSolver = new CPLEXSolver();
         SetCoverResult setCoverResult = simplexSolver.solveLPSetCover(instance);
         Random random = new Random();
 
