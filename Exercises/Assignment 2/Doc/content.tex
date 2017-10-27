@@ -1,7 +1,5 @@
 % !TeX spellcheck=en_GB
 \section{Theoretical part}
-
-
 \begin{math}
 Pr[C'\text{ has } \frac{n}{2} \text{ elements and has cost } \leq \mathcal{O}\left(OPT\right)]\\
 \\
@@ -11,3 +9,28 @@ Pr[C' \text{ does cover at least } \frac{n}{2} \text{ elements}] \geq \frac{7}{8
 \end{math}
 
 \section{Implementation part}
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{|X|l|r|X|X|}
+		\hline
+		\textbf{Method} & \textbf{Instance} & \textbf{Best value} & \textbf{Computation time (ms)} & \textbf{Ratio to optimal}\\\hline
+		CPLEX & scpa3 & 232 & 1.141 & 1\\\hline
+		CPLEX & scpc3 & 243 & 4.240 & 1\\\hline
+		CPLEX & scpnrf1 & 14 & 44.488 & 1\\\hline
+		CPLEX & scpnrg5 & DNF* & > 5.400.000 & N/A\\\hline\hline
+		Simple Rounding & scpa3 & 449 & 52 & 1.94\\\hline
+		Simple Rounding & scpc3 & 544 & 101 & 2.24\\\hline
+		Simple Rounding & scpnrf1 & 76 & 728 & 5.43\\\hline
+		Simple Rounding & scpnrg5 & 585 & 1.692 & 3.48**\\\hline\hline
+		Randomized Rounding & scpa3 & 449 & 59 & 1.94\\\hline
+		Randomized Rounding & scpc3 & 502 & 164 & 2.07\\\hline
+		Randomized Rounding & scpnrf1 & 35 & 628 & 2.5\\\hline
+		Randomized Rounding & scpnrg5 & 463 & 1.013 & 2.76**\\\hline\hline
+		Primal Dual & scpa3 & 448 & 92 & 1.93\\\hline
+		Primal Dual & scpc3 & 463 & 52 & 1.91\\\hline
+		Primal Dual & scpnrf1 & 43 & 175 & 3.07\\\hline
+		Primal Dual & scpnrg5 & 412 & 201 & 2.45**\\\hline
+	\end{tabularx}
+\end{table}
+
+* The best found solution after 90 minutes had value 168.\\
+** 168 is used as optimal value in these calculations.
