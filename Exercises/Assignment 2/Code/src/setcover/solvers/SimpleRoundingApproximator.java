@@ -1,5 +1,9 @@
 package setcover.solvers;
 
+import setcover.IsIn;
+import setcover.SetCoverInstance;
+import setcover.SetCoverResult;
+
 import java.util.HashSet;
 import java.util.Set;
 
