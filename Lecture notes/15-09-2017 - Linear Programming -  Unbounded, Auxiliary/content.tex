@@ -14,7 +14,7 @@ An LP can be solved with the \textit{SIMPLEX} algorithm. SIMPLEX initiates by ge
 
 \begin{alignat}{3}
 \text{max: } &\sum_{i=1}^{n} c_i x_i\\
-\text{s.t }  & \sum_{j=1}^{n} a_{ij} x_j + x_{n+i} \leq b_i  && \text{ for } i=1,2,...,m\\
+\text{s.t }  & \sum_{j=1}^{n} a_{ij} x_j + x_{n+i} = b_i  && \text{ for } i=1,2,...,m\\
              & x_j \geq 0                                    && \text{ for } j=1,2,...,n+m
 \end{alignat}
 
