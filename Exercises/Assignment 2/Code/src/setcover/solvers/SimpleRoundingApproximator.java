@@ -25,10 +25,14 @@ public class SimpleRoundingApproximator implements SetCoverSolver {
 
         int f = 0;
 
-        for (Set<Integer> set : sets) {
-            if (f < set.size()) {
-                f = set.size();
+        for (int element = 0; element < instance.m; element++) {
+            int isIn = 0;
+
+            for (Set<Integer> set : sets) {
+                if (set.contains(element)) isIn++;
             }
+
+            if (isIn > f) f = isIn;
         }
 
         int result = 0;
